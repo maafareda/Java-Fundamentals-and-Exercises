@@ -1,6 +1,6 @@
 package org.example;
 
-public class Employe extends personne {
+public class Employe extends Personne {
 
     private String email;
     private String poste;

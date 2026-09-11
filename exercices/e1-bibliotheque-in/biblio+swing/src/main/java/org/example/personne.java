@@ -1,11 +1,11 @@
 package org.example;
 
-public abstract class personne {
+public abstract class Personne {
 
     private int id;
     private String nom;
 
-    public personne(int id, String nom) {
+    public Personne(int id, String nom) {
         this.id = id;
         this.nom = nom;
     }

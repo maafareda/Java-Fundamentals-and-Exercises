@@ -20,7 +20,7 @@ public class Bibliotheque {
         nbEmployes = 0;
     }
 
-    public void ajouterLivre(livre livre) {
+    public void ajouterLivre(Livre livre) {
         livres[nbLivres] = livre;
         nbLivres++;
     }

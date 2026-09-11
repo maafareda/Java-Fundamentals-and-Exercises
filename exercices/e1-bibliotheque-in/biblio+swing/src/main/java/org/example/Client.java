@@ -1,6 +1,6 @@
 package org.example;
 
-public class Client extends personne {
+public class Client extends Personne {
 
     private String email;
     private livre[] emprunts;
@@ -21,7 +21,7 @@ public class Client extends personne {
         return nbEmprunts;
     }
 
-    public void emprunter(livre livre) {
+    public void emprunter(Livre livre) {
 
         if (livre.isDisponible()) {
 

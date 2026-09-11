@@ -14,9 +14,9 @@ public class Interface extends JFrame {
         // Bibliothèque
         b = new Bibliotheque();
 
-        b.ajouterLivre(new livre(1, "Le Petit Prince", "Saint-Exupéry"));
-        b.ajouterLivre(new livre(2, "1984", "George Orwell"));
-        b.ajouterLivre(new livre(3, "L'Étranger", "Albert Camus"));
+        b.ajouterLivre(new Livre(1, "Le Petit Prince", "Saint-Exupéry"));
+        b.ajouterLivre(new Livre(2, "1984", "George Orwell"));
+        b.ajouterLivre(new Livre(3, "L'Étranger", "Albert Camus"));
 
         // Client
         client = new Client(1, "Jean Dupont", "jean@email.com");
