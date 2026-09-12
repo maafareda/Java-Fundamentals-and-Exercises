@@ -1,17 +1,18 @@
 package e3_classe_abstract;
 
-public class Developpeur {
-	 public Developpeur(String nom, int anneesExperience) {
-	        super(nom, anneesExperience);
-	    }
+public class Developpeur extends Employe implements Payable {
 
-	    @Override
-	    public void travailler() {
-	        System.out.println(nom + " écrit du code.");
-	    }
+	public Developpeur(String nom, int anneesExperience) {
+	    super(nom, anneesExperience);
+	}
 
-	    @Override
-	    public double calculerSalaire() {
-	        return 5000 + anneesExperience * 200;
-	    }
+	@Override
+	public void travailler() {
+	    System.out.println(nom + " écrit du code.");
+	}
+
+	@Override
+	public double calculerSalaire() {
+	    return 5000 + anneesExperience * 200;
+	}
 }
