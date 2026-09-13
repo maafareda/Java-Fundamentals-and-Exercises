@@ -213,7 +213,7 @@ if (age < 0) {
 }
 
 
-       4.1-Gestion globale des exceptions:
+       4.2-Gestion globale des exceptions:
 
 La gestion globale des exceptions signifie qu'on centralise la gestion des erreurs au lieu de mettre le même try-catch partout.
 
@@ -224,3 +224,86 @@ try {
 } catch (Exception e) {
     System.out.println("Erreur");
 }
+
+
+
+
+
+5- CONCURRENCE ET SYNCHRONISATION
+
+Concurrence → plusieurs tâches travaillent en même temps.
+Thread → une tâche exécutée par le programme.
+Synchronisation → éviter que plusieurs threads créent des problèmes en utilisant les mêmes données.
+
+
+      5.1 Multithreading: lors executrer plusieurs tâches peuvent avancer en parallèle.
+
+
+	1- ExecutorService : lance 2 tache a la fois synchrone :
+
+exemple :
+
+
+public class Test {
+
+    public static void main(String[] args) {
+
+        Thread t1 = new Thread(() -> {
+            System.out.println("Tâche 1");
+        });
+
+        Thread t2 = new Thread(() -> {
+            System.out.println("Tâche 2");
+        });
+
+        t1.start();
+        t2.start();
+    }
+}
+
+
+	2- CompletableFuture permet d'exécuter des tâches de manière asynchrone.
+
+Exemple :
+
+CompletableFuture.runAsync(() -> {
+    System.out.println("Tâche exécutée");
+});
+
+Le mot important est asynchrone.
+
+Cela signifie que le programme peut lancer une tâche et continuer à faire autre chose sans attendre immédiatement la fin de cette tâche.
+
+
+
+
+      5.2 Sécurité des threads : regle les probleme de concurance 
+
+1-synchronized :un seul thread a la fois 
+
+Exemple :
+
+	public synchronized void retirer(int montant) {
+    argent = argent - montant;
+}
+
+
+
+2-ReentrantLock: ait également du verrouillage, mais il donne plus de contrôle que synchronized.
+
+
+exemple :
+
+Lock lock = new ReentrantLock();
+
+lock.lock();
+
+try {
+    argent = argent - 50;
+} finally {
+    lock.unlock();
+}
+
+
+3-ConcurrentHashMap :
+
