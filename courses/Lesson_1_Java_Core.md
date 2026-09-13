@@ -8,9 +8,9 @@ This lesson covers fundamental Object-Oriented Programming (OOP) paradigms, Coll
 ---
 
 ## 1. Object-Oriented Programming (OOP) Deep Dive
-- **Interfaces vs. Abstract Classes**:
+- ** vs. Abstract Classes**:
   - Abstract classes enable state inheritance and shared behavior across related objects.
-  - Interfaces define strictly decoupled capability contracts (e.g., `Serializable`, `Cloneable`, or service interfaces).
+  -  define strictly decoupled capability contracts (e.g., `Serializable`, `Cloneable`, or service interfaces).
 - **Polymorphism & Dynamic Binding**:
   - Runtime resolution of overridden methods enables loose coupling in layered architectures.
 

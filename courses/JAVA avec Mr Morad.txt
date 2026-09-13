@@ -1,91 +1,115 @@
-JAVA avec Mr Morad :
+java with mr morad :
 
-```
-PART 1 : POO
+	part 1 : poo
 
-- POO : Programmation Orientée Objet
+- poo : porgramation oriente objet 
+-la poo se base sur 3 principe :
 
-- La POO se base sur 4 principes :
+		1-encapsilation : la sucurite  (les donne protege de ext , seul les methode qui le droit de comunique avec att , et pour communique en utulise meth , les methode joue role interface )
 
-    1- Encapsulation : la sécurité (les données sont protégées de l'extérieur, seules les méthodes qui ont le droit peuvent communiquer avec les attributs, et pour communiquer on utilise les méthodes. Les méthodes jouent le rôle d'interface).
+		2-heritage : la reutulisation 
 
-    2- Héritage : la réutilisation.
+		3-polymorphisme : l'extensabilite ( il doit etre present le heritage . c'est la modification u la mis a jour sans revenir en code juste en le appel
 
-    3- Polymorphisme : l'extensibilité (il doit être présent avec l'héritage. C'est la modification ou la mise à jour sans revenir au code, juste en faisant l'appel).
-
-    4- Abstraction : c'est lorsqu'on fait une classe abstraite, c'est-à-dire qu'elle ne peut pas être instanciée. Elle sert pour l'héritage.
+		4-abstraction : cest lors qu'on fait un classe abstrait c-a-d il ne peux pas instencier des objet sert que pour heritage 
 
 
-LES CLASSES ABSTRAITES
-
-    - Une classe qui contient au moins une méthode abstraite.
-
-    - Une classe qui hérite d'une classe abstraite doit obligatoirement redéfinir toutes les méthodes abstraites de sa classe mère.
-
-    - Une classe qui refuse de redéfinir les méthodes abstraites de sa classe mère doit être abstraite.
-
-    - Une classe abstraite n'est pas instanciable.
-
-    - La notion en POO sert à exiger un protocole (un contrat de travail pour les classes filles) pour un but organisationnel.
-
-    - On doit redéfinir toutes les méthodes, garder les mêmes types.
 
 
-JAVA : HÉRITAGE
-
-    - En héritage, si une classe hérite d'une classe, elle peut redéfinir la méthode dont elle hérite.
-
-    - En Java, il n'y a pas d'héritage multiple, ce qui veut dire qu'une classe hérite d'une seule classe.
 
 
-QU'EST-CE QU'UNE INTERFACE ?
-
-    - Une interface, avant Java 8 (2014), était purement abstraite (ça veut dire que toutes ses méthodes étaient abstraites). Mais après Java 8, cette notion a changé.
-
-    - Java 8 : l'interface peut contenir des méthodes concrètes (static, default, private).
-
-    - Une interface contient des attributs final static.
 
 
-EN RÉSUMÉ :
-
-    Interface :
-
-        - Une interface peut contenir les attributs et les méthodes sans définition, mais elle a l'avantage qu'elle peut être implémentée par plusieurs classes à la fois.
-
-    Classe abstraite :
-
-        - Une classe qui a la possibilité d'avoir des attributs, des méthodes avec une définition ou sans. Mais il y a le problème du diamant.
 
 
-    - En héritage, pour le constructeur, on ne fait pas l'ancienne méthode, on utilise super(attribut mère) + this.attribut fille.
-
-    - Une classe qui contient une méthode abstraite doit être une classe abstraite.
-
-    - Interface : les méthodes n'ont pas besoin de code, c'est final, et même les attributs, mais ceux-ci sont final. Il faut les faire private ou static ou par défaut.
-
-        public default void ...() { ...code... }
-
-    - Redéfinition : on ne doit pas changer les attributs.
+	les classe abstraite
 
 
-LES EXCEPTIONS
+- une classe qui contient ou moin une methode abstraite .
 
-    - try : on écrit le code à exécuter et, s'il rencontre une erreur, il passe à finally.
+- une classe qui herite du classe abstraite doit obligatoirement redfinire tout les methode abstraite de sa classe mere.
 
-    - On écrit les codes susceptibles de provoquer une erreur.
+- une classe qui refuse de redefinire les methode abstraite de sa classe mere doit etre abstraite .
 
-    - catch : quand il trouve une erreur, il entre dans le catch et il arrête.
+- une classe abstrait n'est pas instansible
 
-    - finally : toujours exécuté, même s'il trouve une erreur.
+- la notion en oop sert a exigent un protocol ( un contrat de traivail pour les classe fille ) pour un but organisationelle
 
-
-    try : J'essaie d'exécuter un code qui peut planter.
-
-    catch : Si ça plante avec une certaine erreur, je fais ceci au lieu de laisser le programme s'arrêter.
-
-    finally (optionnel) : Dans tous les cas (plante ou pas), je fais ce nettoyage (ex. fermer un fichier).
+: en doit redefinir tout les methode , gardes les meme type ..
 
 
-    - On peut faire un try avec plusieurs catch. Les catch où on fait les exceptions vont être choisis automatiquement par Java. On peut même faire des classes d'exception.
-```
+
+
+
+
+
+
+
+	-java heritage
+
+- en heritage la classe si il herite d'une classe il peux redfinire la methode qui il herite .
+
+en java ya pas heritage multiple se qui veux dire une classe herite d'une seul classe .
+
+que ce que une interface :
+
+	une interface c'est une classe qui avant java 8(2014) etait purment abstrait (sa veux dire tout c'est methode etait abstrait ) mais apres 
+
+java 8 cette notion a change alors l'interface peux contenir  des methode concraite (static . default . private) , interface contient des attribut 
+
+final static .
+
+en resume : interface c'est une classe qui contient des attribut final static des methode purment abstrait , des methode concrait ( default , static
+
+private)
+
+
+
+
+	en heritage en constructeur en fait pas l'ancien methode en utulise super(att mere )+this.fille;
+
+	une classe qui contient une methode abbstrait doit etre sa claasse abstrait .
+
+	interface  les methode na pas besoin de code cest finale , et meme les attribut mais seson final ms il faut la fair prive ou static ou par default .
+
+		public default void ,,,(){..code..} , redefinition en doit pas changer les attributs .
+
+
+
+
+		interface :
+une interface peut contenir que les attribut est est les methode son defenition mais il a avantage que il peut etre implemente par plusieur classe a la meme fois 
+
+		classe abstrait :
+une classe qui a la posivilite d'avoir des attribut des methode avec des definition ou sans . mais il y'a le probleme de diammant 
+
+
+
+
+
+
+
+
+
+			les execeptios 
+ 		
+	-try : en ecrir les code des execute est si rencontre error il passe a finally .
+
+			en ecrire les code sustisible .
+	
+	-catch :quand il touve error il entre en try est il arrete .
+
+
+	- finally : toujour execute le code meme si il trouve error.
+		
+
+try : J’essaie d’exécuter un code qui peut planter.
+
+catch : Si ça plante avec une certaine erreur, je fais ceci au lieu de laisser le programme s’arrêter.
+
+finally (optionnel) : Dans tous les cas (plante ou pas), je fais ce nettoyage (ex. fermer un fichier).
+
+
+	en peut fait un try avec plusieur catch . catch ou en fait les exception est vas le choisir automatiquement java , en peut meme faire des classe de execption .
+
+
