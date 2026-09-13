@@ -1,0 +1,226 @@
+resume 4 fichier : 
+
+		Lecon 1 : architecture java : la poo est les notion fondamentales .
+
+
+	partie 1 : POO 
+
+
+1-classe abstracte : permet de partage plusieur attribut entre plusieir classes liees .
+
+2-interface elle definit un contrat que la classe doit respecter 
+
+3-polumorphisme : permet  a une methode d'avoir des comportement different selon objet utulise
+
+
+	partie 2 : collections est stram api 
+
+1-structure des donnees : 
+
+   1.1- list : est une collection ordonnée. // ArrayList
+
+garde l'ordre des éléments 
+accepte les doublons 
+permet d'accéder à un élément avec son index.
+
+exemple :
+
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+
+        ArrayList<String> noms = new ArrayList<>();
+
+        noms.add("Reda");
+        noms.add("Amine");
+        noms.add("Reda");
+
+        System.out.println(noms);
+    }
+}
+
+sortie : [Reda, Amine, Reda]
+
+   1.2- set : est une collection qui ne permet pas les doublons. // HashSet
+
+exemple :
+
+import java.util.HashSet;
+
+public class Main {
+    public static void main(String[] args) {
+
+        HashSet<String> noms = new HashSet<>();
+
+        noms.add("Reda");
+        noms.add("Amine");
+        noms.add("Reda");
+
+        System.out.println(noms);
+    }
+}
+
+sortie : [Reda, Amine]
+
+
+   1.3- map : fonctionne avec des paires clé-valeur. //HashMap
+
+exemple : 
+
+import java.util.HashMap;
+
+public class Main {
+    public static void main(String[] args) {
+
+        HashMap<Integer, String> etudiants = new HashMap<>();
+
+        etudiants.put(1, "Reda");
+        etudiants.put(2, "Amine");
+        etudiants.put(3, "Yassine");
+
+        System.out.println(etudiants);
+    }
+}
+
+
+
+
+
+
+
+2-stram API :
+
+    2.1- c'est quoi stream API : La Stream API permet de travailler facilement avec une collection de données comme une ArrayList.
+
+exemple : 
+
+List<Integer> nombres = Arrays.asList(1, 2, 3, 4, 5);
+
+
+    2.2- filtrer donnees : filter()
+
+exemple :
+
+nombres.stream()
+.filter(n -> n > 3)
+.forEach(System.out::println);
+
+sortie : 4 / 5
+
+
+    2.3- transformer donnees : map()
+
+exemple :
+
+nombres.stream()
+       .map(n -> n * 2)
+       .forEach(System.out::println);
+
+
+sortie : 2/4/6/8/10
+
+
+
+
+
+
+3-interface foncionneles :
+
+      3.1- predicate : teste les condition 
+
+exemple :
+
+Predicate<Integer> test = n -> n > 3;
+
+sotie : true ou false sa depend du n 
+
+
+
+      3.2- function : transformer une valeur 
+
+exemple :
+
+Function<Integer, Integer> doubler = n -> n * 2;
+
+doubler.apply(5);
+
+
+
+      3.3- Consumer : sert à utiliser une valeur, sans retourner de résultat.
+
+exemple : 
+
+Consumer<String> afficher = nom -> System.out.println(nom);
+
+afficher.accept("Reda");
+
+
+
+
+4-gestion des exeptions :Une exception est une erreur qui se produit pendant l’exécution d’un programme.
+
+exemple :
+
+int a = 10;
+int b = 0;
+
+System.out.println(a / b);
+
+
+
+
+       4.1-Exceptions vérifiées et non vérifiées:
+
+1. Checked Exceptions: Ce sont des exceptions que Java oblige le programmeur à gérer ou à déclarer.
+
+exemple :
+
+import java.io.FileReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+
+        try {
+            FileReader fichier = new FileReader("test.txt");
+        } catch (IOException e) {
+            System.out.println("Erreur avec le fichier");
+        }
+    }
+}
+
+
+IOException est une Checked Exception. car en peut avoir proble en 
+fichier inexistant
+problème de permission
+problème de lecture...
+
+
+
+
+2. Unchecked Exceptions
+
+Ce sont des exceptions que Java ne nous oblige pas à gérer.
+ 
+exemple :
+
+
+int age = -5;
+
+if (age < 0) {
+    throw new IllegalArgumentException("Age invalide");
+}
+
+
+       4.1-Gestion globale des exceptions:
+
+La gestion globale des exceptions signifie qu'on centralise la gestion des erreurs au lieu de mettre le même try-catch partout.
+
+exemple : 
+
+try {
+    ajouterClient();
+} catch (Exception e) {
+    System.out.println("Erreur");
+}
