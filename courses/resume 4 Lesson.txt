@@ -305,5 +305,27 @@ try {
 }
 
 
-3-ConcurrentHashMap :
+3-ConcurrentHashMap :Plusieurs threads peuvent travailler sur cette collection de manière plus sûre.
+
+exemple :
+
+ConcurrentHashMap<Integer, String> utilisateurs
+        = new ConcurrentHashMap<>();
+
+utilisateurs.put(1, "Reda");
+utilisateurs.put(2, "Ali");
+
+
+
+resume :
+
+| Élément               | Rôle                                     |
+| --------------------- | ---------------------------------------- |
+| **Thread**            | Exécute une tâche                        |
+| **Multithreading**    | Plusieurs tâches avec plusieurs threads  |
+| **ExecutorService**   | Gère plusieurs tâches/threads            |
+| **CompletableFuture** | Exécute des tâches de manière asynchrone |
+| **synchronized**      | Protège une partie du code               |
+| **ReentrantLock**     | Permet de gérer manuellement un verrou   |
+| **ConcurrentHashMap** | Map adaptée à l'utilisation concurrente  |
 
