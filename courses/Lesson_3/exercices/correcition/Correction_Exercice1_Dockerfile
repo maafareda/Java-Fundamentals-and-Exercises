@@ -1,0 +1,56 @@
+# =====================================================================
+# Correction — Exercice 1 : Dockerfile multi-stage
+# Thème : build multi-stage, réduction du footprint de l'image
+# =====================================================================
+
+# ---------------------------------------------------------------------
+# Étape 1 : "build" — compilation avec Maven + JDK complet.
+# Cette image est lourde (plusieurs centaines de Mo), mais elle n'est
+# JAMAIS présente dans l'image finale : elle sert uniquement à produire
+# l'artefact app.jar.
+# ---------------------------------------------------------------------
+FROM maven:3.9-eclipse-temurin-21 AS build
+
+WORKDIR /app
+
+# Copier d'abord le pom.xml seul permet à Docker de mettre en cache les
+# dépendances tant que le pom.xml ne change pas (optimisation de build).
+COPY pom.xml .
+RUN mvn dependency:go-offline
+
+COPY src ./src
+RUN mvn clean package -DskipTests
+# Produit : /app/target/app.jar
+
+# ---------------------------------------------------------------------
+# Étape 2 : "run" — exécution avec un JRE léger uniquement.
+# Aucune trace de Maven, du JDK complet ni du code source Java dans
+# cette image : seule la sortie compilée (app.jar) est copiée.
+# ---------------------------------------------------------------------
+FROM eclipse-temurin:21-jre-alpine AS run
+
+WORKDIR /app
+
+# --from=build fait référence à l'étape nommée ci-dessus, pas à une
+# image externe : c'est le cœur du principe multi-stage.
+COPY --from=build /app/target/app.jar app.jar
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
+# =====================================================================
+# Pourquoi l'image finale est plus petite :
+#
+# - L'image "build" (maven:3.9-eclipse-temurin-21) contient Maven, le
+#   JDK complet, le cache des dépendances .m2 et le code source : elle
+#   peut peser plusieurs centaines de Mo à plus d'1 Go.
+# - L'image "run" (eclipse-temurin:21-jre-alpine) ne contient qu'un
+#   JRE minimal basé sur Alpine Linux (quelques dizaines de Mo) et le
+#   seul fichier app.jar nécessaire à l'exécution.
+# - En production, une image plus petite se télécharge et démarre plus
+#   vite, et surtout réduit la surface d'attaque : les outils de build
+#   (compilateurs, gestionnaires de paquets Maven) ne sont pas des
+#   cibles potentielles pour un attaquant qui accéderait au conteneur,
+#   puisqu'ils n'y sont tout simplement pas installés.
+# =====================================================================
