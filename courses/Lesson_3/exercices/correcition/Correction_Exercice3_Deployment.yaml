@@ -1,0 +1,66 @@
+# =====================================================================
+# Correction — Exercice 3 : Kubernetes Deployment (Pods & ReplicaSets)
+# Thème : état déclaratif, mise à l'échelle, tolérance aux pannes
+# =====================================================================
+#
+# Application :  kubectl apply -f Correction_Exercice3_Deployment.yaml
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mon-appli-deployment
+  labels:
+    app: mon-appli
+spec:
+  replicas: 3                     # 3 Pods identiques doivent tourner en permanence
+  selector:
+    matchLabels:
+      app: mon-appli              # le Deployment gère tous les Pods portant ce label
+  template:
+    metadata:
+      labels:
+        app: mon-appli            # label appliqué à chaque Pod créé
+    spec:
+      containers:
+        - name: mon-appli
+          image: mon-appli:1.0
+          ports:
+            - containerPort: 8080
+
+# =====================================================================
+# Question : que se passe-t-il si l'on supprime un Pod manuellement ?
+#
+#   kubectl delete pod <nom-du-pod>
+#
+# Le Deployment délègue la surveillance du nombre de répliques à un
+# ReplicaSet qu'il crée et gère automatiquement. Ce ReplicaSet observe
+# en permanence l'état réel du cluster et le compare à l'état désiré
+# (spec.replicas: 3). Dès qu'un Pod disparaît (suppression manuelle,
+# crash, nœud défaillant...), le ReplicaSet détecte l'écart entre l'état
+# réel (2 Pods) et l'état désiré (3 Pods), et crée immédiatement un
+# nouveau Pod à partir du même template pour revenir à 3 répliques.
+# Le développeur n'a rien à faire : c'est la boucle de réconciliation
+# de Kubernetes qui agit automatiquement.
+#
+# Question : différence entre modifier un Pod directement et modifier
+# "replicas" dans le Deployment ?
+#
+# - Modifier un Pod directement (ex. changer son image avec
+#   "kubectl edit pod ...") n'est pas une opération durable : le Pod
+#   modifié n'est pas reconnu comme conforme au template du Deployment,
+#   et il peut être remplacé à tout moment par le ReplicaSet, qui
+#   recréera un Pod conforme au template original. Modifier un Pod
+#   directement est donc déconseillé et non déclaratif.
+#
+# - Modifier "replicas" (par ex. le faire passer de 3 à 5) dans le
+#   Deployment est l'approche correcte et déclarative : on décrit le
+#   NOUVEL état désiré, et c'est Kubernetes (via le ReplicaSet) qui se
+#   charge de créer les 2 Pods supplémentaires nécessaires pour
+#   atteindre cet état, sans intervention manuelle Pod par Pod. Cette
+#   modification peut se faire avec :
+#
+#     kubectl scale deployment mon-appli-deployment --replicas=5
+#
+#   ou en éditant directement le champ "replicas" du fichier YAML puis
+#   en réappliquant le manifeste avec "kubectl apply -f ...".
+# =====================================================================
