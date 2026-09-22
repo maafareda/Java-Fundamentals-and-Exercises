@@ -1,0 +1,69 @@
+# =====================================================================
+# Correction — Exercice 2 : Docker Compose (environnement multi-conteneurs)
+# Thème : orchestration locale, réseau interne, variables d'environnement
+# =====================================================================
+#
+# Démarrage :  docker compose up -d
+# Arrêt     :  docker compose down
+#
+version: "3.9"
+
+services:
+
+  # -------------------------------------------------------------------
+  # Service applicatif (serveur JEE / Spring Boot)
+  # -------------------------------------------------------------------
+  app:
+    image: mon-appli:latest
+    ports:
+      - "8080:8080"          # port hôte : port conteneur
+    environment:
+      # "db" est ici le NOM DU SERVICE Compose ci-dessous, pas une IP.
+      # Docker Compose crée un réseau interne et un DNS automatique qui
+      # résout "db" et "cache" vers l'adresse IP interne de chaque
+      # conteneur : c'est ainsi que "app" joint "db" sans connaître son IP.
+      DATABASE_URL: "jdbc:postgresql://db:5432/ecole"
+      REDIS_HOST: "cache"
+    depends_on:
+      - db
+      - cache
+
+  # -------------------------------------------------------------------
+  # Base de données PostgreSQL
+  # -------------------------------------------------------------------
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ecole
+      POSTGRES_USER: ecole_user
+      # Donnée sensible : passée en variable d'environnement, jamais
+      # codée en dur dans une image personnalisée.
+      POSTGRES_PASSWORD: "changez_ce_mot_de_passe"
+    volumes:
+      # Volume nommé : les données survivent au redémarrage du conteneur.
+      - db_data:/var/lib/postgresql/data
+
+  # -------------------------------------------------------------------
+  # Cache Redis
+  # -------------------------------------------------------------------
+  cache:
+    image: redis:7
+
+volumes:
+  db_data:
+
+# =====================================================================
+# Explication (résolution de nom entre conteneurs) :
+#
+# Docker Compose place, par défaut, tous les services d'un même fichier
+# sur un réseau bridge interne dédié au projet. Sur ce réseau, chaque
+# service est automatiquement accessible via un nom d'hôte identique à
+# son nom déclaré dans le fichier YAML (ici : "app", "db", "cache").
+#
+# Le conteneur "app" peut donc joindre PostgreSQL simplement en utilisant
+# l'URL jdbc:postgresql://db:5432/ecole : Docker résout "db" en interne
+# vers l'adresse IP actuelle du conteneur "db", même si cette adresse
+# change après un redémarrage. C'est exactement le même principe de
+# "service discovery" que l'on retrouvera, en plus élaboré, avec les
+# Services Kubernetes de l'exercice 4.
+# =====================================================================
