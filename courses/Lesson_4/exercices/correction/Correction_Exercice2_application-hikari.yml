@@ -1,0 +1,46 @@
+# =====================================================================
+# Correction — Exercice 2 : Configuration d'un pool de connexions HikariCP
+# Thème : réutilisation de connexions, dimensionnement d'un pool
+# Fichier : application.yml (Spring Boot)
+# =====================================================================
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ecole
+    username: ecole_user
+    password: changez_ce_mot_de_passe
+    hikari:
+      maximum-pool-size: 10      # nombre maximal de connexions simultanées
+      minimum-idle: 2            # connexions inactives conservées ouvertes en permanence
+      connection-timeout: 30000  # 30 secondes, exprimées en millisecondes
+
+# =====================================================================
+# Question : que se passe-t-il si les 10 connexions sont toutes occupées
+# pendant plus de 30 secondes au moment où une nouvelle requête arrive ?
+#
+# HikariCP fait attendre le thread demandeur pendant au maximum la durée
+# définie par "connection-timeout" (ici 30 000 ms), en espérant qu'une
+# connexion se libère entre-temps. Si aucune connexion n'est libérée dans
+# ce délai, HikariCP lève une exception
+# (org.springframework.jdbc.CannotGetJdbcConnectionException, elle-même
+# causée par un java.sql.SQLTransientConnectionException) : la requête en
+# cours échoue explicitement plutôt que de rester bloquée indéfiniment.
+# Cela évite qu'une surcharge temporaire ne fasse "geler" silencieusement
+# l'application, et permet de renvoyer une erreur claire côté client.
+# =====================================================================
+
+# =====================================================================
+# Question : pourquoi ne pas augmenter indéfiniment "maximum-pool-size" ?
+#
+# Chaque connexion ouverte consomme des ressources non seulement côté
+# application (mémoire, threads internes à HikariCP), mais surtout côté
+# SERVEUR DE BASE DE DONNÉES : chaque connexion PostgreSQL active occupe
+# un processus (ou un thread selon le SGBD) et de la mémoire sur le
+# serveur de base de données lui-même. Au-delà d'un certain nombre de
+# connexions simultanées, on ne fait plus qu'augmenter la contention sur
+# les ressources partagées de la base (CPU, verrous, mémoire), ce qui peut
+# DÉGRADER les performances globales plutôt que les améliorer — même si le
+# serveur d'application, lui, dispose de mémoire disponible. La taille
+# optimale du pool dépend donc autant de la capacité de la base de
+# données que de celle de l'application.
+# =====================================================================
